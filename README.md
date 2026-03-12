@@ -5,4 +5,4 @@ An interactive dashboard analyzing India's largest aviation disruption —
 root causes, 1.62M passengers stranded, ₹500Cr revenue loss, and an 
 Early Warning Simulator to predict the next crisis.
 
-👉 [View Live Dashboard](https://payal3214.github.io/Airline-Revenue-Optimization/indigo_crisis_dashboard.html)
+👉 [View Live Dashboard](https://payal3214.github.io/indigo_crisis_dashboard.html)
