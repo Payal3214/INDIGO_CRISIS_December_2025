@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IndiGo Crisis 2025 — Revenue Intelligence Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e8271a;
+    --amber: #f5a623;
+    --green: #22c55e;
+    --blue: #3b82f6;
+    --dark: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 2rem;
+    height: 56px;
+  }
+  .nav-logo { font-family: var(--font-display); font-size: 1.4rem; color: var(--red); letter-spacing: 2px; }
+  .nav-tabs { display: flex; gap: 0.25rem; }
+  .nav-tab {
+    padding: 6px 14px; border-radius: 6px; cursor: pointer;
+    font-size: 13px; font-weight: 500; color: var(--muted);
+    border: none; background: none; transition: all 0.2s;
+  }
+  .nav-tab:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .nav-tab.active { color: #fff; background: rgba(232,39,26,0.15); color: var(--red); }
+  .nav-badge {
+    margin-left: auto;
+    background: rgba(232,39,26,0.15); border: 1px solid rgba(232,39,26,0.3);
+    color: var(--red); font-family: var(--font-mono); font-size: 11px;
+    padding: 3px 10px; border-radius: 20px;
+  }
+
+  /* SECTIONS */
+  .section { display: none; animation: fadeIn 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* HERO */
+  .hero {
+    position: relative; overflow: hidden;
+    padding: 5rem 3rem 4rem;
+    background: radial-gradient(ellipse at 20% 50%, rgba(232,39,26,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(245,166,35,0.05) 0%, transparent 50%),
+                var(--dark);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px;
+    color: var(--red); text-transform: uppercase; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-label::before { content: ''; width: 24px; height: 1px; background: var(--red); }
+  .hero h1 {
+    font-family: var(--font-display); font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.92; letter-spacing: 1px; margin-bottom: 1.5rem;
+    color: #fff;
+  }
+  .hero h1 span { color: var(--red); }
+  .hero-sub {
+    max-width: 600px; color: var(--muted); font-size: 1rem;
+    font-weight: 300; line-height: 1.8; margin-bottom: 3rem;
+  }
+
+  /* STAT GRID */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .stat-card {
+    background: var(--card);
+    padding: 1.5rem 1.75rem;
+    transition: background 0.2s;
+  }
+  .stat-card:hover { background: #1c1c28; }
+  .stat-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .stat-value { font-family: var(--font-display); font-size: 2.4rem; letter-spacing: 1px; line-height: 1; }
+  .stat-value.red { color: var(--red); }
+  .stat-value.amber { color: var(--amber); }
+  .stat-value.blue { color: var(--blue); }
+  .stat-value.green { color: var(--green); }
+  .stat-desc { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  /* CONTENT AREA */
+  .content { max-width: 1300px; margin: 0 auto; padding: 3rem 2rem; }
+
+  /* SECTION HEADING */
+  .section-heading {
+    display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem;
+    padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+  }
+  .section-heading h2 { font-family: var(--font-display); font-size: 2.2rem; letter-spacing: 1px; color: #fff; }
+  .section-heading .tag { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 2rem; }
+  .timeline-dot {
+    position: absolute; left: -2rem; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid var(--border); background: var(--surface);
+    transition: all 0.2s;
+  }
+  .timeline-dot.red { border-color: var(--red); background: rgba(232,39,26,0.2); }
+  .timeline-dot.amber { border-color: var(--amber); background: rgba(245,166,35,0.2); }
+  .timeline-dot.green { border-color: var(--green); background: rgba(34,197,94,0.2); }
+  .timeline-dot.blue { border-color: var(--blue); background: rgba(59,130,246,0.2); }
+  .timeline-date { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
+  .timeline-title { font-weight: 600; font-size: 1rem; color: #fff; margin-bottom: 6px; }
+  .timeline-body { color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .timeline-body strong { color: var(--text); }
+
+  /* CARDS */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+  .card-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .card-title { font-weight: 600; font-size: 1rem; color: #fff; margin-bottom: 0.5rem; }
+  .card-body { color: var(--muted); font-size: 13.5px; line-height: 1.7; }
+  .card-body strong { color: var(--amber); }
+  .card.border-red { border-left: 3px solid var(--red); }
+  .card.border-amber { border-left: 3px solid var(--amber); }
+  .card.border-green { border-left: 3px solid var(--green); }
+  .card.border-blue { border-left: 3px solid var(--blue); }
+
+  /* CHART BAR */
+  .bar-chart { margin: 1.5rem 0; }
+  .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 10px; }
+  .bar-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); width: 100px; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 28px; background: rgba(255,255,255,0.04); border-radius: 4px; overflow: hidden; position: relative; }
+  .bar-fill {
+    height: 100%; border-radius: 4px;
+    display: flex; align-items: center; padding-left: 10px;
+    font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.8);
+    transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+    width: 0;
+  }
+  .bar-fill.red { background: linear-gradient(90deg, rgba(232,39,26,0.7), rgba(232,39,26,0.4)); }
+  .bar-fill.amber { background: linear-gradient(90deg, rgba(245,166,35,0.7), rgba(245,166,35,0.4)); }
+  .bar-fill.green { background: linear-gradient(90deg, rgba(34,197,94,0.7), rgba(34,197,94,0.4)); }
+  .bar-fill.blue { background: linear-gradient(90deg, rgba(59,130,246,0.7), rgba(59,130,246,0.4)); }
+
+  /* EARLY WARNING SIMULATOR */
+  .simulator { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
+  .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  @media (max-width: 768px) { .sim-grid { grid-template-columns: 1fr; } }
+  .sim-controls { display: flex; flex-direction: column; gap: 1.25rem; }
+  .slider-group label {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: var(--muted); margin-bottom: 8px;
+  }
+  .slider-group label span { font-family: var(--font-mono); font-size: 12px; color: var(--text); }
+  input[type=range] {
+    width: 100%; height: 4px; appearance: none;
+    background: rgba(255,255,255,0.08); border-radius: 2px; outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--red); cursor: pointer;
+    box-shadow: 0 0 0 3px rgba(232,39,26,0.2);
+  }
+  .risk-meter {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1rem;
+  }
+  .risk-dial {
+    width: 180px; height: 180px; border-radius: 50%;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .risk-dial svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+  .risk-dial-inner { text-align: center; z-index: 1; }
+  .risk-score { font-family: var(--font-display); font-size: 3.5rem; line-height: 1; }
+  .risk-label-text { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 2px; margin-top: 4px; }
+  .risk-status {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px;
+    padding: 6px 16px; border-radius: 20px; text-transform: uppercase;
+  }
+  .risk-status.low { background: rgba(34,197,94,0.12); color: var(--green); border: 1px solid rgba(34,197,94,0.25); }
+  .risk-status.medium { background: rgba(245,166,35,0.12); color: var(--amber); border: 1px solid rgba(245,166,35,0.25); }
+  .risk-status.high { background: rgba(232,39,26,0.12); color: var(--red); border: 1px solid rgba(232,39,26,0.25); }
+  .risk-status.critical { background: rgba(232,39,26,0.2); color: var(--red); border: 1px solid var(--red); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(232,39,26,0.4); } 50% { box-shadow: 0 0 0 8px rgba(232,39,26,0); } }
+  .risk-factors { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 8px; }
+  .factor-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .factor-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .factor-dot.red { background: var(--red); }
+  .factor-dot.amber { background: var(--amber); }
+  .factor-dot.green { background: var(--green); }
+
+  /* TWO-COLUMN */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media (max-width: 900px) { .three-col { grid-template-columns: 1fr; } }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead tr { border-bottom: 1px solid var(--border); }
+  th { text-align: left; padding: 10px 14px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+  td { padding: 12px 14px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.03); }
+  tr:hover td { background: rgba(255,255,255,0.02); color: var(--text); }
+  td.highlight-red { color: var(--red); font-family: var(--font-mono); }
+  td.highlight-green { color: var(--green); font-family: var(--font-mono); }
+  td.highlight-amber { color: var(--amber); font-family: var(--font-mono); }
+
+  /* IMPACT METER */
+  .impact-block { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .impact-block h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 1rem; }
+  .progress-bar { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; margin-bottom: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width 1.5s cubic-bezier(0.16,1,0.3,1); width: 0; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+
+  /* CHIP */
+  .chip { display: inline-block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; padding: 3px 9px; border-radius: 4px; text-transform: uppercase; margin-right: 4px; }
+  .chip.red { background: rgba(232,39,26,0.12); color: var(--red); border: 1px solid rgba(232,39,26,0.2); }
+  .chip.amber { background: rgba(245,166,35,0.12); color: var(--amber); border: 1px solid rgba(245,166,35,0.2); }
+  .chip.blue { background: rgba(59,130,246,0.12); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
+  .chip.green { background: rgba(34,197,94,0.12); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+
+  /* QUOTE */
+  blockquote {
+    border-left: 3px solid var(--red); padding: 1rem 1.5rem;
+    background: rgba(232,39,26,0.04); border-radius: 0 8px 8px 0;
+    margin: 1.5rem 0;
+    font-style: italic; color: var(--muted); font-size: 14px;
+  }
+  blockquote cite { display: block; margin-top: 8px; font-style: normal; font-family: var(--font-mono); font-size: 11px; color: var(--red); }
+
+  /* SPACING */
+  .mb-1 { margin-bottom: 0.5rem; }
+  .mb-2 { margin-bottom: 1rem; }
+  .mb-3 { margin-bottom: 1.5rem; }
+  .mb-4 { margin-bottom: 2rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mt-3 { margin-top: 1.5rem; }
+  .mt-4 { margin-top: 2rem; }
+
+  /* LINE CHART (SVG) */
+  .chart-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .chart-container h3 { font-size: 13px; font-family: var(--font-mono); color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
+  svg.line-chart { width: 100%; overflow: visible; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 12px; font-family: var(--font-mono);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">INDIGO // CRISIS</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showTab('overview')">Overview</button>
+    <button class="nav-tab" onclick="showTab('timeline')">Timeline</button>
+    <button class="nav-tab" onclick="showTab('impact')">Impact</button>
+    <button class="nav-tab" onclick="showTab('recovery')">Recovery</button>
+    <button class="nav-tab" onclick="showTab('simulator')">Early Warning</button>
+  </div>
+  <div class="nav-badge">DEC 2025 · INDIA</div>
+</nav>
+
+<!-- OVERVIEW -->
+<div id="overview" class="section active">
+  <div class="hero">
+    <div class="hero-label">Revenue Intelligence Case Study</div>
+    <h1>THE INDIGO<br><span>MELTDOWN</span></h1>
+    <p class="hero-sub">December 2025. India's largest airline — controlling over 60% of domestic air travel — collapsed in real time. ~4,500 flights cancelled. 1.62 million passengers stranded. ₹5 billion in refunds. A case study in how operational over-optimization destroys revenue.</p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Flights Cancelled</div>
+        <div class="stat-value red">~4,500</div>
+        <div class="stat-desc">Over 10 days · Dec 2–12</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Passengers Stranded</div>
+        <div class="stat-value amber">1.62M</div>
+        <div class="stat-desc">Across India's major airports</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Refund Liability</div>
+        <div class="stat-value red">₹500Cr</div>
+        <div class="stat-desc">~$59M USD committed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Stock Drop</div>
+        <div class="stat-value red">-10%</div>
+        <div class="stat-desc">Lost ~$4.5B market value</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">DGCA Fine</div>
+        <div class="stat-value amber">₹22.2Cr</div>
+        <div class="stat-desc">Largest ever levied</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Q3 Profit Drop</div>
+        <div class="stat-value red">-78%</div>
+        <div class="stat-desc">vs prior quarter profit of ₹2,727Cr</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="section-heading">
+      <h2>What Happened</h2>
+      <span class="tag">ROOT CAUSE ANALYSIS</span>
+    </div>
+
+    <div class="cards-grid mb-4">
+      <div class="card border-red">
+        <div class="card-icon">🔧</div>
+        <div class="card-title">The Trigger — FDTL Phase II</div>
+        <div class="card-body">
+          On November 1, 2025, DGCA enforced Phase II of new Flight Duty Time Limitation (FDTL) rules. Night landings were slashed from <strong>6 to 2 per week</strong>. Weekly pilot rest jumped from <strong>36 to 48 hours</strong>. Daily flight time capped at 8 hours for night ops. Airlines had been notified <strong>since January 2024</strong> — nearly two years prior.
+        </div>
+      </div>
+      <div class="card border-amber">
+        <div class="card-icon">👥</div>
+        <div class="card-title">The Underlying Failure — Pilot Shortage</div>
+        <div class="card-body">
+          IndiGo added <strong>1,247 pilots for 91 new aircraft</strong> (2022–2024), while Air India added 1,420 pilots for only 61 aircraft in the same period. IndiGo needed over <strong>1,100 more pilots</strong> to sustain its night-heavy network under the new rules — but hadn't hired them. Non-poaching agreements with other airlines made the shortage worse.
+        </div>
+      </div>
+      <div class="card border-blue">
+        <div class="card-icon">❄️</div>
+        <div class="card-title">The Amplifier — Winter + Weddings</div>
+        <div class="card-body">
+          The crisis hit during <strong>India's peak wedding season</strong> and early winter fog in North Delhi. A weekend A320 software advisory caused overnight delays that cascaded into the next day's roster. With a 60% market share and <strong>2,200+ daily flights</strong>, even a 5% disruption meant hundreds of cancellations across every major hub.
+        </div>
+      </div>
+    </div>
+
+    <blockquote>
+      "Years of lean manpower planning, delayed hiring, non-poaching arrangements, and other short-sighted planning practices."
+      <cite>— Federation of Indian Pilots, to Press Trust of India, Dec 4 2025</cite>
+    </blockquote>
+
+    <div class="section-heading mt-4">
+      <h2>Why IndiGo Failed Where Others Didn't</h2>
+      <span class="tag">COMPETITIVE COMPARISON</span>
+    </div>
+
+    <div class="chart-container mb-4">
+      <h3>Pilot Hiring Rate vs Fleet Growth (2022–2024)</h3>
+      <div class="bar-chart" id="pilotChart">
+        <div class="bar-row">
+          <div class="bar-label">IndiGo</div>
+          <div class="bar-track"><div class="bar-fill amber" data-width="42" style="width:0%">1,247 pilots / 91 aircraft = 13.7 per aircraft</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Air India</div>
+          <div class="bar-track"><div class="bar-fill green" data-width="75" style="width:0%">1,420 pilots / 61 aircraft = 23.3 per aircraft</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Akasa Air</div>
+          <div class="bar-track"><div class="bar-fill blue" data-width="65" style="width:0%">Proactive new hires — no disruption</div></div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted)">Higher pilots-per-aircraft ratio = better FDTL buffer. IndiGo's lean staffing left no room for new rest requirements.</div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-container">
+        <h3>On-Time Performance Collapse</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">October</div>
+            <div class="bar-track"><div class="bar-fill green" data-width="84" style="width:0%">84.1%</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">November</div>
+            <div class="bar-track"><div class="bar-fill amber" data-width="67" style="width:0%">67.7%</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Dec 5 Peak</div>
+            <div class="bar-track"><div class="bar-fill red" data-width="28" style="width:0%">~28% (est.)</div></div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">November's OTP drop was the canary — ignored until collapse.</div>
+      </div>
+      <div class="chart-container">
+        <h3>Daily Cancellations — Dec 2025</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">Dec 2</div>
+            <div class="bar-track"><div class="bar-fill amber" data-width="20" style="width:0%">~200</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Dec 4</div>
+            <div class="bar-track"><div class="bar-fill amber" data-width="45" style="width:0%">~600</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Dec 5 (Peak)</div>
+            <div class="bar-track"><div class="bar-fill red" data-width="100" style="width:0%">~1,600</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Dec 8</div>
+            <div class="bar-track"><div class="bar-fill amber" data-width="40" style="width:0%">~530</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Dec 12+</div>
+            <div class="bar-track"><div class="bar-fill green" data-width="10" style="width:0%">Tapering</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div id="timeline" class="section">
+  <div class="content">
+    <div class="section-heading">
+      <h2>Crisis Timeline</h2>
+      <span class="tag">JAN 2024 → FEB 2026</span>
+    </div>
+
+    <div class="two-col">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot blue"></div>
+          <div class="timeline-date">JAN 2024</div>
+          <div class="timeline-title">DGCA Notifies Airlines of FDTL</div>
+          <div class="timeline-body">DGCA issues new Flight Duty Time Limitation rules giving airlines <strong>nearly 2 years</strong> to prepare. Air India and Akasa Air begin proactive pilot hiring. IndiGo enters a hiring freeze and non-poaching agreements.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot blue"></div>
+          <div class="timeline-date">JUL 2025</div>
+          <div class="timeline-title">FDTL Phase I Implemented</div>
+          <div class="timeline-body">First phase of rules takes effect. Most airlines adapt. IndiGo proceeds without significant operational adjustment. Warning signs begin but go unheeded internally.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot amber"></div>
+          <div class="timeline-date">NOV 1, 2025</div>
+          <div class="timeline-title">FDTL Phase II Goes Live</div>
+          <div class="timeline-body">Night landings capped at 2/week (from 6). Weekly rest increased to 48 hours. <strong>755 of 1,232 November cancellations</strong> were FDTL-related. OTP drops from 84.1% to 67.7%.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-date">DEC 2, 2025</div>
+          <div class="timeline-title">Crisis Begins</div>
+          <div class="timeline-body">Increasing flight cancellations start. A weekend A320 software advisory causes overnight delays, breaking the already-thin crew roster, cascading into next-day cancellations.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-date">DEC 3, 2025</div>
+          <div class="timeline-title">IndiGo Issues First Apology</div>
+          <div class="timeline-body">IndiGo publicly apologizes and announces 48-hour schedule adjustments. Airports in Delhi, Mumbai, Bengaluru, Kolkata, Hyderabad flooded with stranded passengers.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-date">DEC 5, 2025</div>
+          <div class="timeline-title">Crisis Peaks — ~1,600 Cancellations</div>
+          <div class="timeline-body">Single worst day. DGCA grants temporary FDTL exemption until Feb 10. Ministry of Civil Aviation sets up passenger hotline. Indian Railways adds <strong>116 extra coaches</strong> on 37 trains. CEO Elbers makes public video apology.</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-date">DEC 6, 2025</div>
+          <div class="timeline-title">Refunds & Railway Relief</div>
+          <div class="timeline-body">IndiGo commits to full refunds. DGCA orders all pending refunds completed within 24 hours. IndiGo estimates <strong>₹5 billion ($59M)</strong> in total refunds. Government suspends FDTL rules as emergency measure.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-date">DEC 9, 2025</div>
+          <div class="timeline-title">DGCA Orders 10% Schedule Cut</div>
+          <div class="timeline-body">Regulator directs IndiGo to cut winter schedule by 10%. Over <strong>4,200+ flights</strong> cancelled in prior 8 days — equivalent to 23% of planned daily operations.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-date">DEC 10–12, 2025</div>
+          <div class="timeline-title">Accountability — CEO Summoned</div>
+          <div class="timeline-body">DGCA summons CEO Pieter Elbers to explain recovery plan. 4 DGCA flight inspectors terminated. IndiGo Chairman Vikram Singh Mehta issues public apology. CCI probe launched into competitive conduct.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot amber"></div>
+          <div class="timeline-date">DEC 15, 2025</div>
+          <div class="timeline-title">Operations Stabilise</div>
+          <div class="timeline-body">Cancellations taper significantly. Operations return to near-normal after 13 days of disruption. IndiGo begins compensating passengers — <strong>₹10,000 travel vouchers</strong> for severely affected travellers announced for Dec 26 onwards.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot amber"></div>
+          <div class="timeline-date">JAN 23, 2026</div>
+          <div class="timeline-title">Q3 Earnings: -78% Profit</div>
+          <div class="timeline-body">IndiGo reports Q3 results. Net profit plunges 78% vs prior quarter. ₹5.8B provision for compensation. Shares drop 3%. CEO called December the "most challenging weeks in IndiGo's history."</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot green"></div>
+          <div class="timeline-date">FEB 10, 2026</div>
+          <div class="timeline-title">FDTL Rules Reinstated</div>
+          <div class="timeline-body">Temporary exemption expires. IndiGo now compliant with full FDTL rules after emergency pilot recruitment. DGCA maintains oversight with fortnightly crew utilisation reviews.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT -->
+<div id="impact" class="section">
+  <div class="content">
+    <div class="section-heading">
+      <h2>Full Impact Analysis</h2>
+      <span class="tag">PASSENGERS · REVENUE · GOVT · ECONOMY</span>
+    </div>
+
+    <div class="cards-grid mb-4">
+      <div class="impact-block">
+        <h3>✈️ Passenger Impact</h3>
+        <div class="progress-label"><span>Passengers stranded</span><span style="color:var(--red)">1.62M</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="background:var(--red);width:0%" data-width="95"></div></div>
+        <div class="progress-label"><span>Flights cancelled (total)</span><span style="color:var(--amber)">~4,500</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="background:var(--amber);width:0%" data-width="80"></div></div>
+        <div class="progress-label"><span>% of daily flights cancelled (Dec 5)</span><span style="color:var(--red)">~73%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="background:var(--red);width:0%" data-width="73"></div></div>
+        <div class="progress-label"><span>Annual customers served in 2025</span><span style="color:var(--blue)">124M</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="background:var(--blue);width:0%" data-width="60"></div></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:10px">Worst affected airports: Delhi (30+ cancellations on Dec 4), Bengaluru (73), Hyderabad (68). Peak wedding season and end-of-year holiday travellers were most severely impacted.</div>
+      </div>
+
+      <div class="impact-block">
+        <h3>💸 IndiGo Revenue Impact</h3>
+        <table>
+          <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Refund liability committed</td><td class="highlight-red">₹500 Cr ($59M)</td></tr>
+            <tr><td>DGCA fine (record)</td><td class="highlight-red">₹22.2 Cr</td></tr>
+            <tr><td>Daily non-compliance penalty (68 days)</td><td class="highlight-amber">₹20.4 Cr</td></tr>
+            <tr><td>Bank guarantee to DGCA</td><td class="highlight-amber">₹50 Cr</td></tr>
+            <tr><td>Compensation vouchers (₹10K/pax)</td><td class="highlight-amber">₹162+ Cr</td></tr>
+            <tr><td>Q3 provision for disruption</td><td class="highlight-red">₹58 Cr</td></tr>
+            <tr><td>FY26 revenue impact (Emkay est.)</td><td class="highlight-red">-3%</td></tr>
+            <tr><td>FY26 pre-tax profit impact (Emkay)</td><td class="highlight-red">-17%</td></tr>
+            <tr><td>Stock market cap erased</td><td class="highlight-red">~$4.5B</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="two-col mb-4">
+      <div class="card border-red">
+        <div class="card-icon">🏛️</div>
+        <div class="card-title">Government Response & Consequences</div>
+        <div class="card-body">
+          Ministry of Civil Aviation set up a passenger hotline and ordered high-level inquiry. DGCA temporarily suspended FDTL rules as emergency measure. Four DGCA flight inspectors were terminated for inadequate oversight. CEO Pieter Elbers was summoned and issued a formal caution. Warnings issued to COO, SVP Operations, Deputy Head of Flight Ops, and others. The government also ordered Indian Railways to add 116 extra coaches on 37 trains.
+          <br><br>
+          <strong>CCI (Competition Commission)</strong> launched a probe into IndiGo's market dominance practices after the meltdown exposed risks of a near-duopoly (IndiGo + Tata control 91% of RPKs).
+        </div>
+      </div>
+      <div class="card border-amber">
+        <div class="card-icon">🇮🇳</div>
+        <div class="card-title">Broader Indian Economic Impact</div>
+        <div class="card-body">
+          With IndiGo controlling over 60% of domestic flights, the disruption functionally paralysed India's air travel network. Competitor airlines hiked prices sharply — accused by passengers of <strong>"profiteering."</strong> Air fare caps were imposed by DGCA on certain routes.
+          <br><br>
+          Business travel disruption during peak season hit SMEs and corporates. Tourism to wedding destinations was severely impacted. The crisis reignited debate about <strong>India's aviation duopoly risk</strong> and the Lok Sabha Standing Committee's August 2025 warning about concentration in critical sectors.
+          <br><br>
+          <strong>Moody's flagged it as a credit negative</strong> for IndiGo, though long-term liquidity (₹38,500 Cr cash as of Sep 2025) provided cushion.
+        </div>
+      </div>
+    </div>
+
+    <div class="section-heading mt-4">
+      <h2>The Southwest Airlines Parallel</h2>
+      <span class="tag">COMPARATIVE ANALYSIS</span>
+    </div>
+
+    <div class="chart-container">
+      <h3>IndiGo 2025 vs Southwest Airlines 2022 — System Failure Comparison</h3>
+      <table>
+        <thead><tr><th>Dimension</th><th>IndiGo Dec 2025</th><th>Southwest Dec 2022</th></tr></thead>
+        <tbody>
+          <tr><td>Trigger</td><td>FDTL regulatory non-preparation</td><td>Winter storm (Winter Storm Elliott)</td></tr>
+          <tr><td>Root Cause</td><td class="highlight-amber">Lean manpower planning, thin buffers</td><td class="highlight-amber">Outdated crew scheduling systems</td></tr>
+          <tr><td>Flights Cancelled</td><td class="highlight-red">~4,500 over 10 days</td><td class="highlight-red">~17,000 over holiday period</td></tr>
+          <tr><td>Passengers Stranded</td><td class="highlight-red">1.62 million</td><td class="highlight-red">~2 million</td></tr>
+          <tr><td>Market Share at Time</td><td>60%+ domestic India</td><td>~17% US domestic</td></tr>
+          <tr><td>Recovery Timeline</td><td>~13 days</td><td>~10 days</td></tr>
+          <tr><td>Common Theme</td><td colspan="2" style="color:var(--amber)">Efficiency over resilience — systems built for maximum utilisation collapse under stress</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- RECOVERY -->
+<div id="recovery" class="section">
+  <div class="content">
+    <div class="section-heading">
+      <h2>Recovery & Reforms</h2>
+      <span class="tag">HOW INDIGO SOLVED THE PROBLEM</span>
+    </div>
+
+    <div class="cards-grid mb-4">
+      <div class="card border-green">
+        <div class="card-icon">👨‍✈️</div>
+        <div class="card-title">Emergency Pilot Recruitment</div>
+        <div class="card-body">IndiGo launched urgent hiring to fill the 1,100+ pilot gap. Admitted to DGCA that new recruitment would begin immediately. The airline also utilised 12 DGCA Flight Operations Inspectors (IndiGo pilots posted as regulators) temporarily for scheduling support — an unprecedented move.</div>
+      </div>
+      <div class="card border-green">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Schedule Reset & 10% Cut</div>
+        <div class="card-body">IndiGo voluntarily reset all systems and schedules on Dec 5, triggering the peak cancellation day but enabling "progressive improvement" thereafter. DGCA-mandated 10% schedule cut reduced daily flights from ~2,200 to ~2,000, rebuilding roster buffer margins.</div>
+      </div>
+      <div class="card border-blue">
+        <div class="card-icon">💳</div>
+        <div class="card-title">Passenger Compensation</div>
+        <div class="card-body">Full refunds for all affected passengers. ₹10,000 travel vouchers issued from Dec 26 for severely disrupted travellers. ₹5.8 billion provision booked in Q3 earnings. Structured compensation process established under government direction.</div>
+      </div>
+      <div class="card border-blue">
+        <div class="card-icon">🏗️</div>
+        <div class="card-title">Systemic Reforms (DGCA Mandated)</div>
+        <div class="card-body">Board crisis management group formed. Roster buffer margins mandated. Fortnightly crew utilisation review with DGCA. Roadmap for full FDTL compliance submitted. Six executives disciplined including CEO (caution), COO (warning), SVP Operations (removed from role).</div>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <h2>What Should Have Been Done</h2>
+      <span class="tag">LESSONS FOR REVENUE MANAGEMENT</span>
+    </div>
+
+    <div class="three-col mb-4">
+      <div class="card">
+        <div class="chip amber">Lesson 1</div>
+        <div class="card-title mt-2">Regulation as Revenue Risk</div>
+        <div class="card-body">Regulatory changes must be modelled as revenue risk scenarios, not just operational tasks. A Monte Carlo simulation of FDTL impact on crew availability would have quantified the revenue-at-risk 12+ months ahead.</div>
+      </div>
+      <div class="card">
+        <div class="chip amber">Lesson 2</div>
+        <div class="card-title mt-2">Buffer is Not Waste</div>
+        <div class="card-body">Lean staffing maximises utilisation metrics but destroys resilience. Airlines that maintained 15–20% roster buffers sailed through the same FDTL changes. Revenue optimisation must include resilience as a constraint, not just an afterthought.</div>
+      </div>
+      <div class="card">
+        <div class="chip amber">Lesson 3</div>
+        <div class="card-title mt-2">OTP is a Leading Indicator</div>
+        <div class="card-body">November's OTP drop from 84.1% to 67.7% was a clear distress signal. An early warning system monitoring OTP, crew utilisation rate, and cancellation-to-FDTL ratios would have triggered action 3–4 weeks before the December collapse.</div>
+      </div>
+    </div>
+
+    <blockquote>
+      "Early December was the most challenging weeks in IndiGo's history."
+      <cite>— Pieter Elbers, CEO IndiGo, Q3 Earnings Call, January 2026</cite>
+    </blockquote>
+
+    <div class="chart-container mt-3">
+      <h3>Post-Crisis Recovery Trajectory (Estimated)</h3>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">Oct OTP</div>
+          <div class="bar-track"><div class="bar-fill green" data-width="84" style="width:0%">84.1%</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Nov OTP</div>
+          <div class="bar-track"><div class="bar-fill amber" data-width="68" style="width:0%">67.7% ⚠️ Warning</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Dec 5 (Worst)</div>
+          <div class="bar-track"><div class="bar-fill red" data-width="28" style="width:0%">~28% 🔴 Crisis</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Dec 15</div>
+          <div class="bar-track"><div class="bar-fill amber" data-width="55" style="width:0%">~55% Stabilising</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Jan 2026</div>
+          <div class="bar-track"><div class="bar-fill green" data-width="73" style="width:0%">~73% Recovering</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Feb 2026</div>
+          <div class="bar-track"><div class="bar-fill green" data-width="80" style="width:0%">~80% Near-normal</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EARLY WARNING SIMULATOR -->
+<div id="simulator" class="section">
+  <div class="content">
+    <div class="section-heading">
+      <h2>Early Warning Simulator</h2>
+      <span class="tag">FDTL CRISIS RISK MODEL</span>
+    </div>
+
+    <p style="color:var(--muted);font-size:14px;margin-bottom:2rem;max-width:700px">
+      This simulator models the key variables that led to IndiGo's December 2025 collapse. Adjust the parameters to see how the composite risk score changes — and what threshold triggers a crisis intervention.
+    </p>
+
+    <div class="simulator mb-4">
+      <div class="sim-grid">
+        <div class="sim-controls">
+          <div class="slider-group">
+            <label>Pilot-to-Aircraft Ratio <span id="pilotRatioVal">13.7</span></label>
+            <input type="range" id="pilotRatio" min="8" max="28" step="0.1" value="13.7" oninput="updateSimulator()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px"><span>Lean (IndiGo Dec)</span><span>Safe Buffer</span></div>
+          </div>
+          <div class="slider-group">
+            <label>On-Time Performance % <span id="otpVal">67.7</span>%</label>
+            <input type="range" id="otp" min="30" max="95" step="0.1" value="67.7" oninput="updateSimulator()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px"><span>Crisis Level</span><span>Normal</span></div>
+          </div>
+          <div class="slider-group">
+            <label>Night Flight Dependency % <span id="nightVal">65</span>%</label>
+            <input type="range" id="nightDep" min="5" max="90" step="1" value="65" oninput="updateSimulator()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px"><span>Low Risk</span><span>High Risk</span></div>
+          </div>
+          <div class="slider-group">
+            <label>FDTL Compliance Buffer (weeks) <span id="fdtlVal">0</span></label>
+            <input type="range" id="fdtlBuffer" min="0" max="24" step="1" value="0" oninput="updateSimulator()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px"><span>Not prepared</span><span>6+ months ahead</span></div>
+          </div>
+          <div class="slider-group">
+            <label>Seasonal Demand Surge <span id="demandVal">Peak</span></label>
+            <input type="range" id="demandSurge" min="1" max="5" step="1" value="5" oninput="updateSimulator()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px"><span>Off-peak</span><span>Wedding + Holiday</span></div>
+          </div>
+          <div class="slider-group">
+            <label>Roster Buffer Margin % <span id="bufferVal">3</span>%</label>
+            <input type="range" id="rosterBuffer" min="0" max="30" step="1" value="3" oninput="updateSimulator()">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px"><span>Dangerously lean</span><span>Industry safe (20%+)</span></div>
+          </div>
+        </div>
+
+        <div class="risk-meter">
+          <div class="risk-dial">
+            <svg width="180" height="180" viewBox="0 0 180 180">
+              <circle cx="90" cy="90" r="75" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12"/>
+              <circle id="riskArc" cx="90" cy="90" r="75" fill="none" stroke="var(--red)" stroke-width="12"
+                stroke-dasharray="471" stroke-dashoffset="471" stroke-linecap="round"
+                style="transition: stroke-dashoffset 0.8s cubic-bezier(0.16,1,0.3,1), stroke 0.4s"/>
+            </svg>
+            <div class="risk-dial-inner">
+              <div class="risk-score" id="riskScore" style="color:var(--red)">87</div>
+              <div class="risk-label-text">RISK SCORE</div>
+            </div>
+          </div>
+          <div class="risk-status critical" id="riskStatus">🔴 CRITICAL RISK</div>
+          <div class="risk-factors" id="riskFactors">
+            <div class="factor-row"><div class="factor-dot red"></div><span style="font-size:12px;color:var(--muted)">Pilot ratio critically low (13.7)</span></div>
+            <div class="factor-row"><div class="factor-dot red"></div><span style="font-size:12px;color:var(--muted)">OTP below 70% threshold</span></div>
+            <div class="factor-row"><div class="factor-dot red"></div><span style="font-size:12px;color:var(--muted)">No FDTL compliance buffer</span></div>
+            <div class="factor-row"><div class="factor-dot amber"></div><span style="font-size:12px;color:var(--muted)">Peak season demand surge</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <h2>What Triggers a Crisis</h2>
+      <span class="tag">THRESHOLD MODEL</span>
+    </div>
+
+    <div class="chart-container mb-4">
+      <h3>Risk Thresholds — Based on IndiGo Dec 2025 Data</h3>
+      <table>
+        <thead><tr><th>Metric</th><th>Safe Zone</th><th>Warning</th><th>Crisis</th></tr></thead>
+        <tbody>
+          <tr><td>On-Time Performance</td><td class="highlight-green">> 82%</td><td class="highlight-amber">70–82%</td><td class="highlight-red">< 70%</td></tr>
+          <tr><td>Pilots per Aircraft</td><td class="highlight-green">> 20</td><td class="highlight-amber">15–20</td><td class="highlight-red">< 15</td></tr>
+          <tr><td>Roster Buffer Margin</td><td class="highlight-green">> 18%</td><td class="highlight-amber">8–18%</td><td class="highlight-red">< 8%</td></tr>
+          <tr><td>Monthly Cancellations (FDTL-related)</td><td class="highlight-green">< 100</td><td class="highlight-amber">100–500</td><td class="highlight-red">> 500</td></tr>
+          <tr><td>Night Flight Dependency</td><td class="highlight-green">< 30%</td><td class="highlight-amber">30–55%</td><td class="highlight-red">> 55%</td></tr>
+          <tr><td>FDTL Compliance Lead Time</td><td class="highlight-green">> 3 months</td><td class="highlight-amber">1–3 months</td><td class="highlight-red">< 1 month</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card border-blue">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Project Extension: Build This as an Automated Alert System</div>
+      <div class="card-body">
+        This simulator is the foundation for a real Python module you can add to your Airline Revenue Optimization project:
+        <br><br>
+        <span class="chip blue">Module 1</span> <strong style="color:var(--text)">Data ingestion</strong> — pull real OTP, cancellation, and crew utilisation data from DGCA monthly reports<br><br>
+        <span class="chip blue">Module 2</span> <strong style="color:var(--text)">Anomaly detection</strong> — rolling z-score on OTP trend; flag when 2-month decline exceeds threshold<br><br>
+        <span class="chip blue">Module 3</span> <strong style="color:var(--text)">Risk scoring</strong> — weighted composite of all 6 metrics → single risk score with automated classification<br><br>
+        <span class="chip blue">Module 4</span> <strong style="color:var(--text)">Revenue-at-risk quantification</strong> — if risk score > 70, estimate refund liability + fine exposure + market cap impact<br><br>
+        <span class="chip green">Output</span> <strong style="color:var(--text)">Automated alert</strong> that would have flagged IndiGo's crisis in <strong>late October 2025</strong> — 5 weeks before collapse
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>INDIGO CRISIS CASE STUDY · AIRLINE REVENUE OPTIMIZATION PROJECT</span>
+  <span>DATA SOURCES: DGCA · WIKIPEDIA · REUTERS · BLOOMBERG · BUSINESS STANDARD · EMKAY GLOBAL</span>
+</footer>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    // Animate bars when switching tabs
+    setTimeout(animateBars, 100);
+  }
+
+  function animateBars() {
+    document.querySelectorAll('.bar-fill[data-width]').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+    document.querySelectorAll('.progress-fill[data-width]').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  }
+
+  function updateSimulator() {
+    const pilotRatio = parseFloat(document.getElementById('pilotRatio').value);
+    const otp = parseFloat(document.getElementById('otp').value);
+    const nightDep = parseInt(document.getElementById('nightDep').value);
+    const fdtlBuffer = parseInt(document.getElementById('fdtlBuffer').value);
+    const demandSurge = parseInt(document.getElementById('demandSurge').value);
+    const rosterBuf = parseInt(document.getElementById('rosterBuffer').value);
+
+    document.getElementById('pilotRatioVal').textContent = pilotRatio.toFixed(1);
+    document.getElementById('otpVal').textContent = otp.toFixed(1);
+    document.getElementById('nightVal').textContent = nightDep;
+    document.getElementById('fdtlVal').textContent = fdtlBuffer;
+    document.getElementById('bufferVal').textContent = rosterBuf;
+    const demandLabels = ['','Off-Peak','Shoulder','Normal','High','Peak Wedding/Holiday'];
+    document.getElementById('demandVal').textContent = demandLabels[demandSurge];
+
+    // Compute risk score (0-100)
+    let score = 0;
+    // Pilot ratio: 8→28, ideal >20
+    score += Math.max(0, (20 - pilotRatio) / 12) * 25;
+    // OTP: 30→95, ideal >82
+    score += Math.max(0, (82 - otp) / 52) * 25;
+    // Night dependency: risk above 30%
+    score += Math.max(0, (nightDep - 30) / 60) * 20;
+    // FDTL buffer: 0→24 weeks, no buffer = risky
+    score += Math.max(0, (12 - fdtlBuffer) / 12) * 15;
+    // Demand surge: 1→5
+    score += (demandSurge - 1) / 4 * 10;
+    // Roster buffer: 0→30, ideal >18
+    score += Math.max(0, (18 - rosterBuf) / 18) * 5;
+
+    score = Math.round(Math.min(100, Math.max(0, score)));
+
+    document.getElementById('riskScore').textContent = score;
+
+    // Arc
+    const circumference = 471;
+    const offset = circumference - (score / 100) * circumference;
+    const arc = document.getElementById('riskArc');
+    arc.style.strokeDashoffset = offset;
+
+    let status, statusClass, color;
+    if (score < 25) { status = '✅ LOW RISK'; statusClass = 'low'; color = 'var(--green)'; }
+    else if (score < 50) { status = '⚠️ MEDIUM RISK'; statusClass = 'medium'; color = 'var(--amber)'; }
+    else if (score < 75) { status = '🟠 HIGH RISK'; statusClass = 'high'; color = 'var(--amber)'; }
+    else { status = '🔴 CRITICAL RISK'; statusClass = 'critical'; color = 'var(--red)'; }
+
+    arc.style.stroke = color;
+    document.getElementById('riskScore').style.color = color;
+    const statusEl = document.getElementById('riskStatus');
+    statusEl.textContent = status;
+    statusEl.className = 'risk-status ' + statusClass;
+
+    // Factors
+    const factors = [];
+    if (pilotRatio < 15) factors.push({c:'red', t:`Pilot ratio critically low (${pilotRatio.toFixed(1)})`});
+    else if (pilotRatio < 20) factors.push({c:'amber', t:`Pilot ratio below safe threshold`});
+    else factors.push({c:'green', t:`Pilot ratio adequate (${pilotRatio.toFixed(1)})`});
+
+    if (otp < 70) factors.push({c:'red', t:`OTP below 70% crisis threshold`});
+    else if (otp < 82) factors.push({c:'amber', t:`OTP declining — monitor closely`});
+    else factors.push({c:'green', t:`OTP healthy (${otp.toFixed(1)}%)`});
+
+    if (fdtlBuffer < 4) factors.push({c:'red', t:`No FDTL compliance buffer`});
+    else if (fdtlBuffer < 12) factors.push({c:'amber', t:`FDTL buffer insufficient`});
+    else factors.push({c:'green', t:`FDTL compliance well prepared`});
+
+    if (rosterBuf < 8) factors.push({c:'red', t:`Roster buffer dangerously lean`});
+    else if (rosterBuf < 18) factors.push({c:'amber', t:`Roster buffer below 18% standard`});
+    else factors.push({c:'green', t:`Roster buffer adequate`});
+
+    if (demandSurge >= 4) factors.push({c:'amber', t:`Peak season amplifies all risks`});
+
+    document.getElementById('riskFactors').innerHTML = factors.map(f =>
+      `<div class="factor-row"><div class="factor-dot ${f.c}"></div><span style="font-size:12px;color:var(--muted)">${f.t}</span></div>`
+    ).join('');
+  }
+
+  // Init
+  setTimeout(() => {
+    animateBars();
+    updateSimulator();
+  }, 300);
+</script>
+</body>
+</html>
